@@ -1,0 +1,48 @@
+1.  <stdint.h> is a header file introduced with C99 standard, whose aim is to bring
+    new integers type that enhance the portabilty of programs. It is useful in
+    embedded environments (like a modem or router) whereby there is limit in the variety
+    of types supported.
+
+2.  The reason behind using uint8_t, uint16_t, uint64_t  in a program is to be able to
+    use a wide range of decimal positive numbers. For instance, uint8_t is an 8-bit unsigned
+    integer, which means only positive numbers will be used, the range vary from 0 to 255
+    decimal. In a similar way, uint16_t allows from 0 to 65535 decimal while uint64_t
+    from 0 to 18446744073709551615 decimal.
+    On the other hand, int32_t includes negatives, hence its range varies from
+    –2147483648 to 2147483647 decimal
+
+3.  A BYTE is 8-bit (1 byte) unsigned value, DWORD is a 32-bit (4 bytes) unsigned integer,
+    LONG is a 32-bit (4 bytes) signed integer, WORD is a 16-bit (2 bytes) unsigned integer.
+
+4.  The first two bytes of any BMP file - which correspond to the first two bytes of the
+    Bitmap file header - must be 0x42 0x4D in hexadecimal, BM in ASCII.
+
+5.  The difference between bfSize and BiSize is that the former is the size, in bytes, of
+    the bitmap file while the latter is the number of bytes required by the
+    BITMAPINFOHEADER structure.
+    See more at "https://msdn.microsoft.com/en-us/library/dd183376(v=vs.85).aspx"
+
+6.  If Biheight, which indicates the height of the bitmap file in pixels, is negative,
+    it means that the file is a top-bottom oriented DIB (device-independent bitmap).
+    Hence the origin will be in the upper-left corner.
+
+7.  The BITMAPINFOHEADER's member that specifies the BMP's color-depth (i.e. number of
+    bits per pixel) is biCount. As the name suggests, it defines the number of bits of
+    color dedicated to each pixel. This number of bits varies from 0 up to 32.
+
+8.  In copy.c, fopen on line 24 and 32 may return NULL because if the programmer doesn't dereference
+    the file pointers - respectively FILE *inptr and FILE *outptr - correctly, an unassigned place in memory
+    will be touched, thus leading to segmentation fault.
+
+9.  The third argument of fread is always 1 because by doing so the program always copies one unit of
+    size 1 byte, so that it copies the BITMAPFILEHEADER byte-by-byte
+
+10. If bi.biWidth is 3, the line 65 assign the value 0 to the padding, so that the total byte per scanline
+    is a multiple of 4.
+
+11. fseek allows to change the offset of a file pointer. In this case, fseek allows to change the offset in
+    the file pointer inptr by the padding position, which means it will skeep the padding whenever it
+    encouters one.
+
+12. SEEK_CUR is the current location of the file pointer. This means that fseek(inptr, padding, SEEK_CUR)
+    will skip the padding from the position where it is currently.
