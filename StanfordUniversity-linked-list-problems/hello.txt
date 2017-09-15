@@ -1,0 +1,1 @@
+This folder is used to upload exercises on linked lists from Staford University that I do to improve my algorithm skills
