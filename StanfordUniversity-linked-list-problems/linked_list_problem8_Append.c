@@ -8,31 +8,95 @@
 */
 
 
+/*
+
+Functions used from link.h
+
+void Append(node** headRef_a, node** headRef_b)
+{
+    node* tail = *headRef_a;
+
+    if(*headRef_a == NULL)
+    {
+        *headRef_a = *headRef_b;
+    }
+    else
+    {
+        //iterate down "a" list
+        while(tail->next != NULL)
+        {
+            tail = tail->next;
+        }
+
+        //link a to b
+        tail->next = *headRef_b;
+
+        //b is now empty
+        *headRef_b = NULL;
+    }
+}
+
+
+void Push(node** headRef, int newData)
+{
+    node* newNode = malloc(sizeof(node));
+    newNode->data = newData;
+
+    newNode->next = *headRef; //correct: points the head in the heap
+    *headRef = newNode; //correct: modify the head in the heap
+}
+
+
+node* BuildOneTwoThree()
+{
+    node* head = malloc(sizeof(node));
+    node* second = malloc(sizeof(node));
+    node* third = malloc(sizeof(node));
+
+    head->data = 1;
+    head->next = second;
+
+    second->data = 2;
+    second->next = third;
+
+    third->data = 3;
+    third->next = NULL;
+
+    //head points to the list
+    return head;
+}
+
+
+*/
+
 
 
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "linked.h"
+#include "list.h"
 
 int main(void)
 {
-    node* headA = NULL;
-    printf("A ");
-    printList(headA);               // A list:
+    //create "a" list
+    node* a = BuildOneTwoThree();
 
-    node* headB = malloc(sizeof(node));
-    headB->data = 4;
-    headB->next = NULL;
-    append(headB, 5);
-    append(headB, 6);
-    printf("B ");
-    printList(headB);               // B list: 4 5 6
+    //create "b" list
+    node* b = BuildNewNode(6);
+    Push(&b, 5);
+    Push(&b, 4);
 
+    printf("a list: ");
+    PrintList(a);
 
+    printf("b list: ");
+    PrintList(b);
 
-    AppendTwoLists(&headA, &headB); // A list 4 5 6
-                                    // B list:
+    Append(&a, &b);
 
+    printf("a list after using Append(): ");
+    PrintList(a);
+
+    printf("b list after using Append(): ");
+    PrintList(b);
 }
-
