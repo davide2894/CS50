@@ -10,113 +10,91 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "linked.h"
+#include "list.h"
 
 
-void SortedInsert(node** head, int new_data)
+
+/*
+
+node* BuildOneTwoThree()
 {
-        //create node to track node we're currently pointing at
-        node* current = *head;
+    node* head = malloc(sizeof(node));
+    node* second = malloc(sizeof(node));
+    node* third = malloc(sizeof(node));
 
-        //create prevNode
-        node* prevNode = current;
+    head->data = 1;
+    head->next = second;
 
-        //create new node and assign argument new data to it
-        node* new_node = malloc(sizeof(node));
-        new_node->data = new_data;
+    second->data = 2;
+    second->next = third;
+
+    third->data = 3;
+    third->next = NULL;
+
+    //head points to the list
+    return head;
+}
 
 
-        while(current)
+void PrintList(node* head)
+{
+    node* current = head;
+
+    while(current != NULL)
+    {
+        printf("%i ", current->data);
+        current = current->next;
+    }
+    printf("\n");
+
+    if(head == NULL)
+    {
+        printf("empty\n");
+    }
+}
+
+
+
+void SortedInsert(node** headRef, node* newNode)
+{
+
+    if(*headRef == NULL || newNode <= *headRef)
+    {
+        newNode->next = *headRef;
+        *headRef = newNode;
+    }
+    else
+    {
+        node* current = *headRef;
+
+        //as long as is not the end of the list
+        //and the next node is smaller than the new node
+        while(current->next != NULL && current->next->data < newNode->data)
         {
-                if(current->data == new_node->data && current != (*head))
-                {
-                        //point PrevNode to new_node
-                        prevNode->next = new_node;
-
-                        //point new node to current
-                        new_node->next = current;
-
-                        //move current to next position
-                        current = current->next;
-
-                        break;
-                }
-                else if( ( (*head)->data == new_node->data ) || ( new_node->data < (*head)->data ) )
-                {
-                        new_node->next = *head;
-
-                        *head = new_node;
-
-                        break;
-                }
-                //for example if last node is 3 and new node is 7
-                else if(current->data < new_node->data && current->next == NULL )
-                {
-                        //link last node to new node
-                        current->next = new_node;
-
-                        //set new node as the last of the list
-                        new_node->next = NULL;
-
-                        break;
-                }
-                // if previous node < new node < next node (for example new node is 3 and  2 < 3 < 4)
-                else if( ( current->data < new_node->data ) && ( new_node->data < current->next->data ) )
-                {
-                        prevNode = current;
-
-                        //move current to next node
-                        current = current->next;
-
-                        //link new node to the next node
-                        new_node->next = current;
-
-                        //link previous node to new one
-                        prevNode->next = new_node;
-
-                        break;
-                }
-                else
-                {
-                        //update prevNode
-                        prevNode = current;
-
-                        //move current to next position
-                        current = current->next;
-                }
+            //move current to the next node
+            current = current->next;
         }
-
+        newNode->next = current->next; //link new node to the next
+        current->next = newNode;       //link current to new node
+    }
 }
 
 
 
 
+*/
+
+
 int main(void)
 {
-        node* head = malloc(sizeof(node));
-        head->data = 1;
-        head->next = NULL;
+        node* myList = BuildOneTwoThree();
+        PrintList(myList);
 
-        createList(head, 3);
-        printList(head); // 1 2 3
+        node* newNode = BuildNewNode(5);
+        printf("newnode %i\n", newNode->data);
 
-        SortedInsert(&head, 0);
+        SortedInsert(&myList, newNode);
 
-        SortedInsert(&head, 1);
-
-        SortedInsert(&head, 2);
-
-        SortedInsert(&head, 7);
-
-        SortedInsert(&head, 4);
-
-        SortedInsert(&head, 5);
-
-        SortedInsert(&head, 6);
-
-        SortedInsert(&head, 4);
-
-        printList(head); //0 1 1 2 2 3 4 4 5 6 7
-
-        return 0;
+        printf("List with sorted insert: ");
+        PrintList(myList);
 }
