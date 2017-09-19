@@ -11,40 +11,97 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "linked.h"
+#include "list.h"
+
+/*
+    Functions used from list.h
 
 
-void Pop(node** head)
+node* BuildOneTwoThree()
 {
-    node* current = *head;
-    node* new_head = current->next;
+    node* head = malloc(sizeof(node));
+    node* second = malloc(sizeof(node));
+    node* third = malloc(sizeof(node));
 
-    free(current);
+    head->data = 1;
+    head->next = second;
 
-    *head = new_head;
+    second->data = 2;
+    second->next = third;
 
+    third->data = 3;
+    third->next = NULL;
+
+    //head points to the list
+    return head;
 }
+
+
+void PrintList(node* head)
+{
+    node* current = head;
+
+    while(current != NULL)
+    {
+        printf("%i ", current->data);
+        current = current->next;
+    }
+
+    if(head == NULL)
+    {
+        printf("empty\n");
+    }
+}
+
+
+int Length(node* head)
+{
+    node* current = head;
+    int count = 0;
+
+    while(current != NULL)
+    {
+        count++;
+        current = current->next;
+    }
+
+    return count;
+}
+
+
+
+int Pop(node** head)
+{
+    node* current = *head;      //access real head in main
+    node* next = current->next;
+    *head = next;               //change head to next node
+
+    int popped = current->data;       //store popped value
+
+    free(current);              //delete ex head
+
+    return popped;
+}
+
+*/
+
+
 
 int main(void)
 {
-    node* head = malloc(sizeof(node));
-    head->data = 1;
-    head->next = NULL;
+    node* myList = BuildOneTwoThree();      //1 2 3
+    PrintList(myList);
+    printf("\n");
 
-    //create a list
-    createList(head, 3);
+    int a = Pop(&myList); //deletes 1 and returns it
+    printf("Popped %i from list\n", a);
 
-    //print it
-    printList(head);
+    int b = Pop(&myList); //deletes 2 and returns it
+    printf("Popped %i from list\n", b);
 
+    int c = Pop(&myList);  //deletes 3 and returns it
+    printf("Popped %i from list\n", c);
 
-    //pop head
-    Pop(&head);
-
-    //reprint to verify
-    printList(head);
-
-
-    //success
-    return 0;
+    int len = Length(myList); //list is empty so len = 0
+    printf("List length is now %i\n", len);
 }
