@@ -9,44 +9,38 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "linked.h"
+#include "list.h"
 
+/*
 
-void count(node* head, int key)
+    Function included in "list.h"
+
+int Count(node* head, int elementToSearchFor)
 {
-    //create node to track position in the list
     node* current = head;
-
-    //create counter and set it to 0
     int count = 0;
 
-    //traverse the list and search for key
-    //and track how many times it is encountered in it
     while(current != NULL)
     {
-        if(current->data == key)
+        if(current->data == elementToSearchFor)
         {
             count++;
             current = current->next;
         }
         else
-        {
-            current = current->next;
-        }
+            current = current->next; //advance to next node
     }
-    printf("key %i is in the list %i times\n", key, count);
+
+    return(count);
 }
+
+*/
 
 
 int main(void)
 {
-    node* head = malloc(sizeof(node));
-    head->data = 1;
-    head->next = NULL;
-
-    createList(head, 10);
-
-    printList(head);
-
-    count(head, 3);
+    node* list = BuildOneTwoThree();    //build 1 2 3
+    int count = Count(list, 2);
+    printf("%i\n", count);              //returns 1 since 2 occuse
+                                        //once in the list
 }
