@@ -11,49 +11,76 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "linked.h"
+#include "list.h"
+
+/*
+    Functions used from list.h
+
+
+node* BuildOneTwoThree()
+{
+    node* head = malloc(sizeof(node));
+    node* second = malloc(sizeof(node));
+    node* third = malloc(sizeof(node));
+
+    head->data = 1;
+    head->next = second;
+
+    second->data = 2;
+    second->next = third;
+
+    third->data = 3;
+    third->next = NULL;
+
+    //head points to the list
+    return head;
+}
+
+
+void PrintList(node* head)
+{
+    node* current = head;
+
+    while(current != NULL)
+    {
+        printf("%i ", current->data);
+        current = current->next;
+    }
+
+    if(head == NULL)
+    {
+        printf("empty\n");
+    }
+}
 
 
 void DeleteList(node** head)
 {
-    node* current = *head;
-    node* Next;
+    node* current = *head; //access real head in main
+    node* next = current;
 
     while(current != NULL)
     {
-        //allocate Next to the node after current
-        Next = current->next;
-
-        //free current from memory
-        free(current);
-
-        //move current to the next node
-        current = Next;
+        next = current->next;
+        free(current);    //delete node
+        current = next;   //advance to next node
     }
 
-    //reallocate the head to NULL
-    // *head to affect the real head
-    *head = NULL;
+    *head = NULL;         //list in main is now empty
 }
+
+*/
 
 
 int main(void)
 {
-    node* head = malloc(sizeof(node));
-    head->data = 1;
-    head->next = NULL;
+    printf("List before deletion: ");
+    node* myList = BuildOneTwoThree();      //1 2 3
+    PrintList(myList);
+    printf("\n");
 
-    //create a list
-    createList(head, 5);
+    DeleteList(&myList);
 
-    //print it
-    printList(head);
-
-    //deallocate the entire list
-    DeleteList(&head);
-
-    //reprint list to verify
-    printList(head);
-
-    return 0;
+    printf("List after deletion: ");        //empty
+    PrintList(myList);
 }
