@@ -12,35 +12,84 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "linked.h"
+#include "list.h"
+
+/*
+    Functions used from "list.h"
+
+void MergeSort(node** sourceList)
+{
+    node* head = *sourceList;
+    node* a;
+    node* b;
+
+    FrontBackSplit(head, &a, &b);
+
+    //recursively sort sublist a and b
+    InsertSort(&a);
+    InsertSort(&b);
+
+    //Merge sublist a and b so that the are sorted together
+    *sourceList = SortedMerge(a, b);
+}
+
+
+node* BuildNewNode(int data)
+{
+    node* newNode = malloc(sizeof(node));
+    newNode->data = data;
+    newNode->next = NULL;
+
+    return newNode;
+}
+
+void Push(node** headRef, int newData)
+{
+    node* newNode = malloc(sizeof(node));
+    newNode->data = newData;
+    newNode->next = *headRef;
+    *headRef = newNode;
+}
+
+
+void PrintList(node* head)
+{
+    if(head == NULL)
+    {
+        printf("empty\n");
+    }
+    else
+    {
+        node* current = head;
+
+        while(current != NULL)
+        {
+            printf("%i ", current->data);
+            current = current->next;
+        }
+        printf("\n");
+    }
+}
+
+*/
 
 int main(void)
 {
-    node* source = malloc(sizeof(node));
-    node* a = malloc(sizeof(node));
-    node* b = malloc(sizeof(node));
+    //create source list
+    node* sourceList = BuildNewNode(1);
+    Push(&sourceList, 3);
+    Push(&sourceList, 0);
+    Push(&sourceList, 2);
 
-    source->data = 7;
-    append(source, 9);
-    append(source, 5);
-    append(source, 16);
-    append(source, 0);
+    //print it
+    printf("Source list: ");
+    PrintList(sourceList);              // 2 0 3 1
 
+    //apply MergeSort()
+    printf("Using MergeSort()...\n");
+    MergeSort(&sourceList);
 
-    MergeSort(source, a, b);
-
-    /*
-        source list: 7 9 5 16 0
-        A list: 7 9 5
-        B list: 16 0
-
-        A sorted list: 5 7 9
-        B sortedlist: 0 16
-        A merged with B list: 5 7 9 0 16
-        Final merged and sorted list: 0 5 7 9 16
-
-    */
-
-
-
+    //print result list
+    printf("Result sorted list: ");
+    PrintList(sourceList);              //0 1 2 3
 }
