@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+
+<div class="container" id="index_table">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Trade</th>
+            </tr>
+        <thead>
+        <tfoot>
+            <td colspan="4"></td>
+            <td>{{ "${:,.2f}".format(grand_total) }}</td>
+        </tfoot>
+        <tbody>
+            {% for purchase in purchases %}
+                {% if purchase.shares != 0 %}
+                    <tr>
+                        <td>
+                            {{ purchase.symbol }}
+                        </td>
+                        <td>
+                            {{ purchase.name }}
+                        </td>
+                        <td>
+                            {{ purchase.shares }}
+                        </td>
+                        <td>
+                            {{ "${:,.2f}".format(purchase.price|float) }}
+                        </td>
+                        <td>
+                            {{ "${:,.2f}".format(purchase.total|float) }}
+                        </td/>
+                        <td>
+                            <a href="{{url_for('buy', symbol=purchase.symbol)}}" class="btn btn-default">Buy</a>
+                            <a href="{{url_for('sell', symbol=purchase.symbol)}}" class="btn btn-default">Sell</a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+                <tr>
+                    <td colspan="4">CASH</td>
+                    <td> {{ "${:,.2f}".format(net) }}</td>
+                </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
